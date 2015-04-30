@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<database name="deprecated" package="org.sakaiproject.apue.tool">
+    <option key="moduleName" value=""/>
+    <option key="activeRecord" value="true"/>
+    <option key="includeNonPortableAttributes" value="false"/>
+    <option key="testAutomatically" value="false"/>
+    <table name="dado">
+        <column name="id_dado" primaryKey="true" required="true" scale="0" size="10" type="4,INT"/>
+        <column name="id_sessao" primaryKey="false" required="true" scale="0" size="10" type="4,INT"/>
+        <column name="id_metadado" primaryKey="false" required="true" scale="0" size="10" type="4,INT"/>
+        <column name="tipo_dado" primaryKey="false" required="true" scale="0" size="1" type="12,VARCHAR"/>
+        <column name="data_insercao" primaryKey="false" required="true" scale="0" size="19" type="93,TIMESTAMP"/>
+        <column name="valor" primaryKey="false" required="true" scale="0" size="100" type="12,VARCHAR"/>
+        <foreign-key foreignTable="metadado" name="dado_ibfk_1" onDelete="none" onUpdate="none">
+            <option key="exported" value="false"/>
+            <reference foreign="id_metadado" local="id_metadado"/>
+        </foreign-key>
+        <foreign-key foreignTable="sessao" name="dado_ibfk_2" onDelete="none" onUpdate="none">
+            <option key="exported" value="false"/>
+            <reference foreign="id_sessao" local="id_sessao"/>
+        </foreign-key>
+        <unique name="PRIMARY">
+            <unique-column name="id_dado"/>
+        </unique>
+        <index name="id_metadado">
+            <index-column name="id_metadado"/>
+        </index>
+        <index name="id_sessao">
+            <index-column name="id_sessao"/>
+        </index>
+    </table>
+    <table name="experimento">
+        <column name="id_experimento" primaryKey="true" required="true" scale="0" size="10" type="4,INT"/>
+        <column name="nome" primaryKey="false" required="true" scale="0" size="100" type="12,VARCHAR"/>
+        <column name="porta" primaryKey="false" required="true" scale="0" size="50" type="12,VARCHAR"/>
+        <column name="descricao" primaryKey="false" required="true" scale="0" size="500" type="12,VARCHAR"/>
+        <column name="status" primaryKey="false" required="true" scale="0" size="1" type="12,VARCHAR"/>
+        <column name="url_streaming" primaryKey="false" required="true" scale="0" size="100" type="12,VARCHAR"/>
+        <foreign-key foreignTable="grafico" name="grafico_ibfk_1" onDelete="none" onUpdate="none">
+            <option key="exported" value="true"/>
+            <reference foreign="id_experimento" local="id_experimento"/>
+        </foreign-key>
+        <foreign-key foreignTable="metadado" name="metadado_ibfk_1" onDelete="none" onUpdate="none">
+            <option key="exported" value="true"/>
+            <reference foreign="id_experimento" local="id_experimento"/>
+        </foreign-key>
+        <foreign-key foreignTable="sessao" name="sessao_ibfk_1" onDelete="none" onUpdate="none">
+            <option key="exported" value="true"/>
+            <reference foreign="id_experimento" local="id_experimento"/>
+        </foreign-key>
+        <unique name="PRIMARY">
+            <unique-column name="id_experimento"/>
+        </unique>
+    </table>
+    <table name="grafico">
+        <column name="id_grafico" primaryKey="true" required="true" scale="0" size="10" type="4,INT"/>
+        <column name="id_experimento" primaryKey="false" required="true" scale="0" size="10" type="4,INT"/>
+        <column name="nome" primaryKey="false" required="true" scale="0" size="50" type="12,VARCHAR"/>
+        <column name="descricao" primaryKey="false" required="true" scale="0" size="500" type="12,VARCHAR"/>
+        <column name="id_metadado_x" primaryKey="false" required="true" scale="0" size="10" type="4,INT"/>
+        <column name="id_metadado_y" primaryKey="false" required="true" scale="0" size="10" type="4,INT"/>
+        <foreign-key foreignTable="experimento" name="grafico_ibfk_1" onDelete="none" onUpdate="none">
+            <option key="exported" value="false"/>
+            <reference foreign="id_experimento" local="id_experimento"/>
+        </foreign-key>
+        <foreign-key foreignTable="metadado" name="grafico_ibfk_2" onDelete="none" onUpdate="none">
+            <option key="exported" value="false"/>
+            <reference foreign="id_metadado" local="id_metadado_x"/>
+        </foreign-key>
+        <foreign-key foreignTable="metadado" name="grafico_ibfk_3" onDelete="none" onUpdate="none">
+            <option key="exported" value="false"/>
+            <reference foreign="id_metadado" local="id_metadado_y"/>
+        </foreign-key>
+        <unique name="PRIMARY">
+            <unique-column name="id_grafico"/>
+        </unique>
+        <index name="id_experimento">
+            <index-column name="id_experimento"/>
+        </index>
+        <index name="id_metadado_x">
+            <index-column name="id_metadado_x"/>
+        </index>
+        <index name="id_metadado_y">
+            <index-column name="id_metadado_y"/>
+        </index>
+    </table>
+    <table name="metadado">
+        <column name="id_metadado" primaryKey="true" required="true" scale="0" size="10" type="4,INT"/>
+        <column name="id_experimento" primaryKey="false" required="true" scale="0" size="10" type="4,INT"/>
+        <column name="chave" primaryKey="false" required="true" scale="0" size="100" type="12,VARCHAR"/>
+        <column name="descricao" primaryKey="false" required="true" scale="0" size="500" type="12,VARCHAR"/>
+        <column name="rotulo" primaryKey="false" required="true" scale="0" size="50" type="12,VARCHAR"/>
+        <column name="unidade" primaryKey="false" required="true" scale="0" size="20" type="12,VARCHAR"/>
+       	<foreign-key foreignTable="dado" name="dado_ibfk_1" onDelete="none" onUpdate="none">
+            <option key="exported" value="true"/>
+            <reference foreign="id_metadado" local="id_metadado"/>
+        </foreign-key>
+        <foreign-key foreignTable="experimento" name="metadado_ibfk_1" onDelete="none" onUpdate="none">
+            <option key="exported" value="false"/>
+            <reference foreign="id_experimento" local="id_experimento"/>
+        </foreign-key>
+        <foreign-key foreignTable="metadado_entrada" name="metadado_entrada_ibfk_1" onDelete="none" onUpdate="none">
+            <option key="exported" value="true"/>
+            <reference foreign="id_metadado" local="id_metadado"/>
+        </foreign-key>
+        <foreign-key foreignTable="metadado_saida" name="metadado_saida_ibfk_1" onDelete="none" onUpdate="none">
+            <option key="exported" value="true"/>
+            <reference foreign="id_metadado" local="id_metadado"/>
+        </foreign-key>
+        <foreign-key foreignTable="grafico" name="grafico_ibfk_2" onDelete="none" onUpdate="none">
+            <option key="exported" value="true"/>
+            <reference foreign="id_metadado_x" local="id_metadado"/>
+        </foreign-key>
+        <foreign-key foreignTable="grafico" name="grafico_ibfk_3" onDelete="none" onUpdate="none">
+            <option key="exported" value="true"/>
+            <reference foreign="id_metadado_y" local="id_metadado"/>
+        </foreign-key>
+        <unique name="PRIMARY">
+            <unique-column name="id_metadado"/>
+        </unique>
+        <unique name="id_experimento">
+            <unique-column name="id_experimento"/>
+            <unique-column name="chave"/>
+        </unique>
+    </table>
+    <table name="metadado_entrada">
+        <column name="id_metadado" primaryKey="true" required="true" scale="0" size="10" type="4,INT"/>
+        <column name="valor_padrao" primaryKey="false" required="true" scale="0" size="100" type="12,VARCHAR"/>
+        <column name="tipo_entrada" primaryKey="false" required="true" scale="0" size="10" type="4,INT"/>
+        <column name="visivel" primaryKey="false" required="true" scale="0" size="1" type="12,VARCHAR"/>
+        <foreign-key foreignTable="metadado" name="metadado_entrada_ibfk_1" onDelete="none" onUpdate="none">
+            <option key="exported" value="false"/>
+            <reference foreign="id_metadado" local="id_metadado"/>
+        </foreign-key>
+        <foreign-key foreignTable="opcao_metadado_entrada" name="opcao_metadado_entrada_ibfk_1" onDelete="none" onUpdate="none">
+            <option key="exported" value="true"/>
+            <reference foreign="id_metadado" local="id_metadado"/>
+        </foreign-key>
+        <unique name="PRIMARY">
+            <unique-column name="id_metadado"/>
+        </unique>
+    </table>
+    <table name="metadado_saida">
+        <column name="id_metadado" primaryKey="true" required="true" scale="0" size="10" type="4,INT"/>
+        <foreign-key foreignTable="metadado" name="metadado_saida_ibfk_1" onDelete="none" onUpdate="none">
+            <option key="exported" value="false"/>
+            <reference foreign="id_metadado" local="id_metadado"/>
+        </foreign-key>
+        <unique name="PRIMARY">
+            <unique-column name="id_metadado"/>
+        </unique>
+    </table>
+    <table name="opcao_metadado_entrada">
+        <column name="id_opcao" primaryKey="true" required="true" scale="0" size="10" type="4,INT"/>
+        <column name="id_metadado" primaryKey="false" required="true" scale="0" size="10" type="4,INT"/>
+        <column name="rotulo" primaryKey="false" required="true" scale="0" size="100" type="12,VARCHAR"/>
+        <column name="valor" primaryKey="false" required="true" scale="0" size="100" type="12,VARCHAR"/>
+        <foreign-key foreignTable="metadado_entrada" name="opcao_metadado_entrada_ibfk_1" onDelete="none" onUpdate="none">
+            <option key="exported" value="false"/>
+            <reference foreign="id_metadado" local="id_metadado"/>
+        </foreign-key>
+        <unique name="PRIMARY">
+            <unique-column name="id_opcao"/>
+        </unique>
+        <index name="id_metadado">
+            <index-column name="id_metadado"/>
+        </index>
+    </table>
+    <table name="sessao">
+        <column name="id_sessao" primaryKey="true" required="true" scale="0" size="10" type="4,INT"/>
+        <column name="id_experimento" primaryKey="false" required="true" scale="0" size="10" type="4,INT"/>
+        <column name="usuario_criador" primaryKey="false" required="true" scale="0" size="150" type="12,VARCHAR"/>
+        <column name="curso" primaryKey="false" required="true" scale="0" size="150" type="12,VARCHAR"/>
+        <column name="inicio" primaryKey="false" required="true" scale="0" size="19" type="93,TIMESTAMP"/>
+        <column name="fim" primaryKey="false" required="true" scale="0" size="19" type="93,TIMESTAMP"/>
+        <column name="usuario_controle" primaryKey="false" required="true" scale="0" size="150" type="12,VARCHAR"/>
+        <foreign-key foreignTable="experimento" name="sessao_ibfk_1" onDelete="none" onUpdate="none">
+            <option key="exported" value="false"/>
+            <reference foreign="id_experimento" local="id_experimento"/>
+        </foreign-key>
+        <foreign-key foreignTable="dado" name="dado_ibfk_2" onDelete="none" onUpdate="none">
+            <option key="exported" value="true"/>
+            <reference foreign="id_sessao" local="id_sessao"/>
+        </foreign-key>
+        <foreign-key foreignTable="sessao_grupo" name="sessao_grupo_ibfk_1" onDelete="none" onUpdate="none">
+            <option key="exported" value="true"/>
+            <reference foreign="id_sessao" local="id_sessao"/>
+        </foreign-key>
+        <unique name="PRIMARY">
+            <unique-column name="id_sessao"/>
+        </unique>
+        <index name="id_experimento">
+            <index-column name="id_experimento"/>
+        </index>
+    </table>
+    <table name="sessao_grupo">
+        <column name="id_sessao" primaryKey="true" required="true" scale="0" size="10" type="4,INT"/>
+        <column name="id_grupo" primaryKey="true" required="true" scale="0" size="100" type="12,VARCHAR"/>
+        <foreign-key foreignTable="sessao" name="sessao_grupo_ibfk_1" onDelete="none" onUpdate="none">
+            <option key="exported" value="false"/>
+            <reference foreign="id_sessao" local="id_sessao"/>
+        </foreign-key>
+        <unique name="PRIMARY">
+            <unique-column name="id_sessao"/>
+            <unique-column name="id_grupo"/>
+        </unique>
+    </table>
+</database>
